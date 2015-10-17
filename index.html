@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>drawing daum yozm icon with raphael</title>
+  <script src="https://rawgit.com/DmitryBaranovskiy/raphael/master/raphael.js"></script>
+  <script>
+  var YozmIcon = {
+    paper:null,
+    size:{w:100, h:123},
+    color:'rgb(235, 78, 117)',
+    draw: function(set, color) {
+      var attr = {fill:color ? color : 'rgb(235, 78, 117)', stroke:null};
+      this.paper.set().push(set).attr(attr);
+    },
+    create: function(cid) {
+      var paper = this.paper = Raphael(cid, this.size.w, this.size.h);
+      var w = this.size.w;
+      var h = this.size.h;
+      var x = w / 2;
+      var y = h / 2 + 10;
+      var min = Math.min(x, y);
+      var top = y - min - 2;
+      var bottom = y + min + 1;
+      // draw outter-face
+      this.draw(paper.path([
+        ['M', x, top-1],
+        ['C', 1, top, 1, y-3, 1, y],
+        ['C', 1, bottom, x, bottom, x, bottom],
+        ['C', w - 1, bottom, w - 1, y, w - 1, y],
+        ['C', 100, 33, 73, 1, 73, 1],
+        ['C', 65, 15, x + 5, top, x - 1, top - 1]
+      ]));
+      // draw inner-face
+      this.draw(paper.path([
+        ['M', 15, 63],
+        ['C', x, 70, 82, 53, 82, 53],
+        ['C', 97, 107, x + 5, 113, x, 113],
+        ['C', x, 113, 13, 113, 15, 63]
+      ]), 'rgb(255, 255, 255)');
+      // draw eyes
+      this.draw(paper.circle(30, 79, 6));
+      this.draw(paper.circle(70, 79, 6));
+      // draw mouse
+      this.draw(paper.path([
+          ['M', 41, 88],
+          ['C', 49, 90, 59, 88, 59, 88],
+          ['C', 59, 88, 59, 93, 59, 93],
+          ['C', 59, 108, 41, 108, 41, 93],
+          ['C', 41, 93, 41, 88, 41, 88],
+      ]));
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    YozmIcon.create('yozmicon');
+  }, false);
+</script>
+</head>
+<html>
+<body>
+  <div id="yozmicon"></div>
+</body>
+</html>
